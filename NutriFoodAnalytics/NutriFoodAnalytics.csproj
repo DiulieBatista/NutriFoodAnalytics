@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="ConfigWpf\" />
     <Folder Include="Imangens\" />
-    <Folder Include="views\" />
     <Folder Include="Service\" />
     <Folder Include="Repositories\" />
     <Folder Include="ViewModel\" />
