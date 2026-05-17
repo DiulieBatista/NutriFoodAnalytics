@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Grid.RowSpan="5" 
-               Source="/Imagens/fundo.jpeg" 
+               Source="/Imangens/fundo.jpeg" 
                Stretch="UniformToFill"/>
 
         <Border Grid.Row="0" CornerRadius="20" Margin="20,20,20,20">
