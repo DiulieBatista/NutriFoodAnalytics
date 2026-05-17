@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Imangens\fundo.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ConfigWpf\" />
   </ItemGroup>
 
@@ -17,6 +21,12 @@
     <PackageReference Include="Google.Cloud.Firestore" Version="4.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
     <PackageReference Include="QuestPDF" Version="2026.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Imangens\fundo.jpeg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
