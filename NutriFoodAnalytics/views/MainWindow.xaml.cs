@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NutriFoodAnalytics.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,9 @@ namespace NutriFoodAnalytics
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
+
+
     }
 }
