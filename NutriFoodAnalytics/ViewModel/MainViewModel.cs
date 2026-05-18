@@ -46,7 +46,7 @@ namespace NutriFoodAnalytics.ViewModel
         public ICommand PesquisarCommand { get; set; }
         public ICommand GerarPdfCommand { get; set; }
 
-        // NOVO: Comando para listar absolutamente tudo
+      
         public ICommand ListarTudoCommand { get; set; }
 
         public MainViewModel()
@@ -61,15 +61,13 @@ namespace NutriFoodAnalytics.ViewModel
             ListarTudoCommand = new RelayCommand(async () => await ListarTudoAsync());
         }
 
-        // ─────────────────────────────────────────────────────────────────
-        // NOVO: MÉTODO GET ALL (TRAZ TUDO SEM FILTRO)
-        // ─────────────────────────────────────────────────────────────────
+ 
         private async Task ListarTudoAsync()
         {
             try
             {
                 Resultados.Clear();
-                Pergunta = string.Empty; // Limpa a caixa de texto para fazer sentido
+                Pergunta = string.Empty; 
                 Resposta = "Carregando todos os alimentos do banco...";
 
                 // Busca a lista completa diretamente da API
@@ -98,9 +96,7 @@ namespace NutriFoodAnalytics.ViewModel
             }
         }
 
-        // ─────────────────────────────────────────────────────────────────
-        // PESQUISA FILTRADA (Mantida para quando digitar algo)
-        // ─────────────────────────────────────────────────────────────────
+    
         private async Task PesquisarAsync()
         {
             Resultados.Clear();
@@ -229,9 +225,7 @@ namespace NutriFoodAnalytics.ViewModel
                     $"Alimento encontrado: {alimentoEncontrado.Nome}.";
             }
         }
-        // ─────────────────────────────────────
-        // PDF DINÂMICO
-        // ─────────────────────────────────────
+    
         private async Task GerarPdfAsync()
         {
             if (Resultados == null || !Resultados.Any())

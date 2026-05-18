@@ -39,9 +39,6 @@ namespace NutriFoodAnalytics.Service
             NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString
         };
 
-        // ───────────────────────────────────────
-        // BUSCAR TODOS
-        // ───────────────────────────────────────
         public async Task<List<Alimento>> BuscarTodosAsync()
         {
             try
@@ -56,7 +53,7 @@ namespace NutriFoodAnalytics.Service
 
                 var json = await response.Content.ReadAsStringAsync();
 
-                // Garante que o servidor não devolveu um HTML por engano
+
                 if (json.Trim().StartsWith("<"))
                 {
                     throw new Exception("O servidor respondeu com uma página web (HTML) em vez de dados brutos (JSON). Certifique-se de que a rota está correta.");
