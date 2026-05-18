@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NutriFoodAnalytics/ConfigWpf/nutrifoodanalytics-firebase-adminsdk-fbsvc-83ee97925a.json

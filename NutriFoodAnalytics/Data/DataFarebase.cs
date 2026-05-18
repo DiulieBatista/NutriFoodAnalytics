@@ -1,4 +1,7 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using Firebase.Database;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -6,52 +9,45 @@ using System.IO;
 
 namespace NutriFoodAnalytics.Data
 {
-    public class DataFirebase
+    public static class DataFirebase
     {
+        private const string FirebaseUrl = "https://nutrifoodanalytics-default-rtdb.firebaseio.com/";
+
+        // Instância única do cliente (padrão Singleton)
+        private static FirebaseClient? _client;
+
         /// <summary>
-        /// Propriedade usada para realizar as operações no banco Firestore.
+        /// Retorna o cliente do Firebase pronto para uso.
+        /// Cria a conexão apenas na primeira chamada.
         /// </summary>
-        public FirestoreDb Database { get; private set; }
-
-        // Mudamos o construtor para receber a string do ID e do caminho do JSON diretamente,
-        // evitando erros de injeção de dependência do IConfiguration no WPF.
-        public DataFirebase(string projectId, string jsonPath)
+        public static FirebaseClient GetClient()
         {
-            try
+            if (_client == null)
             {
-                if (string.IsNullOrEmpty(projectId))
+                // Inicializa a autenticação com o arquivo de chave de serviço
+                if (FirebaseApp.DefaultInstance == null)
                 {
-                    throw new ArgumentException("O ProjectId não pode ser nulo ou vazio.");
+                    FirebaseApp.Create(new AppOptions
+                    {
+                        // Lê o arquivo serviceAccountKey.json que fica na raiz do projeto
+                        Credential = GoogleCredential.FromFile("nutrifoodwpf-firebase-admin.json")
+                    });
                 }
 
-                if (string.IsNullOrEmpty(jsonPath))
+                // Cria o cliente apontando para a URL do banco
+                _client = new FirebaseClient(FirebaseUrl, new FirebaseOptions
                 {
-                    throw new ArgumentException("O caminho do arquivo JSON (JsonPath) não pode ser nulo ou vazio.");
-                }
-
-                /// Monta o caminho considerando a pasta 'ConfigWPF' dentro do diretório de execução
-                string caminhoCompleto = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ConfigWPF", jsonPath);
-
-                /// Validação de existência do arquivo físico
-                if (!File.Exists(caminhoCompleto))
-                {
-                    throw new FileNotFoundException($"Arquivo de credenciais do Firebase não encontrado no caminho: {caminhoCompleto}");
-                }
-
-                // Carrega a credencial do arquivo JSON
-                var credential = GoogleCredential.FromFile(caminhoCompleto);
-
-                // Inicializa o banco de dados
-                Database = new FirestoreDbBuilder
-                {
-                    ProjectId = projectId,
-                    Credential = credential
-                }.Build();
+                    AuthTokenAsyncFactory = async () =>
+                    {
+                        // Gera um token de autenticação usando o Admin 
+                        string token = await FirebaseAuth.DefaultInstance
+                            .CreateCustomTokenAsync("nutrifoodapp");
+                        return token;
+                    }
+                });
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erro Crítico ao inicializar FirestoreContext: {ex.Message}", ex);
-            }
+
+            return _client;
         }
     }
 }

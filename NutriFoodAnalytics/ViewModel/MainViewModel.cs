@@ -103,56 +103,132 @@ namespace NutriFoodAnalytics.ViewModel
         // ─────────────────────────────────────────────────────────────────
         private async Task PesquisarAsync()
         {
-            try
+            Resultados.Clear();
+
+            var alimentos =
+                await _repository.BuscarTodosAsync();
+
+            string pergunta =
+                Pergunta.ToLower();
+
+            // PROCURA O ALIMENTO
+            var alimentoEncontrado =
+                alimentos.FirstOrDefault(a =>
+                    pergunta.Contains(a.Nome.ToLower()));
+
+            // NÃO ENCONTROU
+            if (alimentoEncontrado == null)
             {
-                Resultados.Clear();
-                Resposta = "Buscando dados na API...";
+                Resposta =
+                    "Alimento não encontrado.";
 
-                if (string.IsNullOrWhiteSpace(Pergunta))
-                {
-                    Resposta = "Por favor, digite o nome de um alimento para pesquisar.";
-                    return;
-                }
-
-                var dadosBrutos = await _repository.BuscarTodosAsync();
-
-                if (dadosBrutos == null || !dadosBrutos.Any())
-                {
-                    Resposta = "Nenhum dado foi retornado pela API.";
-                    return;
-                }
-
-                var dadosUnicos = dadosBrutos.DistinctBy(a => a.Nome?.ToLower().Trim()).ToList();
-                var palavrasChave = Pergunta.Trim().ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var alimento in dadosUnicos)
-                {
-                    if (alimento.Nome == null) continue;
-
-                    string nomeAlimento = alimento.Nome.ToLower();
-                    bool corresponde = palavrasChave.Any(palavra => nomeAlimento.Contains(palavra));
-
-                    if (corresponde)
-                    {
-                        Resultados.Add(alimento);
-                    }
-                }
-
-                if (Resultados.Count == 0)
-                {
-                    Resposta = $"Nenhum alimento encontrado correspondente a '{Pergunta}'.";
-                }
-                else
-                {
-                    Resposta = $"{Resultados.Count} resultado(s) encontrado(s).";
-                }
+                return;
             }
-            catch (Exception ex)
+
+            // MOSTRA SOMENTE O ITEM ENCONTRADO
+            Resultados.Add(alimentoEncontrado);
+
+
+            // CALORIAS
+            if (pergunta.Contains("caloria"))
             {
-                Resposta = $"Erro de Conexão: {ex.Message}";
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Calorias} calorias.";
+            }
+
+            // PROTEÍNA
+            else if (pergunta.Contains("proteína") ||
+                     pergunta.Contains("proteina"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Proteina}g de proteína.";
+            }
+
+            // AÇÚCAR
+            else if (pergunta.Contains("açúcar") ||
+                     pergunta.Contains("acucar"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Acucar}g de açúcar.";
+            }
+
+            // CARBOIDRATOS
+            else if (pergunta.Contains("carboidrato"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Carboidratos}g de carboidratos.";
+            }
+
+            // GORDURA TOTAL
+            else if (pergunta.Contains("gordura total"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.GorduraTotal}g de gordura total.";
+            }
+
+            // GORDURA SATURADA
+            else if (pergunta.Contains("gordura saturada"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.GorduraSaturada}g de gordura saturada.";
+            }
+
+            // FIBRAS
+            else if (pergunta.Contains("fibra"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Fibras}g de fibras.";
+            }
+
+            // SÓDIO
+            else if (pergunta.Contains("sódio") ||
+                     pergunta.Contains("sodio"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Sodio}mg de sódio.";
+            }
+
+            // POTÁSSIO
+            else if (pergunta.Contains("potássio") ||
+                     pergunta.Contains("potassio"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Potassio}mg de potássio.";
+            }
+
+            // COLESTEROL
+            else if (pergunta.Contains("colesterol"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.Colesterol}mg de colesterol.";
+            }
+
+            // PORÇÃO
+            else if (pergunta.Contains("porção") ||
+                     pergunta.Contains("porcao"))
+            {
+                Resposta =
+                    $"{alimentoEncontrado.Nome} possui " +
+                    $"{alimentoEncontrado.PorcaoGramas}g por porção.";
+            }
+
+            // SEM ATRIBUTO
+            else
+            {
+                Resposta =
+                    $"Alimento encontrado: {alimentoEncontrado.Nome}.";
             }
         }
-
         // ─────────────────────────────────────
         // PDF DINÂMICO
         // ─────────────────────────────────────

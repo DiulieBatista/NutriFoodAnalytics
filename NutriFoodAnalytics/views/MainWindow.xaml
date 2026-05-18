@@ -27,49 +27,114 @@
                Source="/Imangens/fundo.jpeg" 
                Stretch="UniformToFill"/>
 
-        <Border Grid.Row="0" CornerRadius="20" Margin="20,20,20,20">
-            <StackPanel VerticalAlignment="Center" Margin="10,0,0,0">
-                <TextBlock Text="NutriFood Analytics" FontSize="34" FontWeight="Bold" Foreground="#1E293B"/>
-                <TextBlock Text="Sistema inteligente para análise nutricional" Margin="0,10,0,0" FontSize="16" Foreground="#64748B"/>
+        <!-- HEADER -->
+        <Border Grid.Row="0"
+                CornerRadius="20"
+                Margin="20">
+
+            <StackPanel VerticalAlignment="Center"
+                        Margin="10,0,0,0">
+
+                <TextBlock Text="NutriFood Analytics"
+                           FontSize="34"
+                           FontWeight="Bold"
+                           Foreground="#1E293B"/>
+
+                <TextBlock Text="Sistema inteligente para análise nutricional"
+                           Margin="0,10,0,0"
+                           FontWeight="Bold"
+                           FontSize="24"
+                           Foreground="#1E293B"/>
+
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" Background="White" CornerRadius="20" Padding="20" BorderBrush="#E2E8F0" BorderThickness="1" Margin="20,0,20,20">
+        <!-- PESQUISA -->
+        <Border Grid.Row="1"
+                Background="White"
+                CornerRadius="20"
+                Padding="20"
+                BorderBrush="#E2E8F0"
+                BorderThickness="1"
+                Margin="20,0,20,20">
+
             <Grid>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="170"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" Height="50" FontSize="16" VerticalContentAlignment="Center" Padding="15,0"
-                         BorderBrush="#CBD5E1" BorderThickness="1" Background="#F8FAFC"
+                <!-- INPUT -->
+                <TextBox Grid.Column="0"
+                         Height="50"
+                         FontSize="16"
+                         VerticalContentAlignment="Center"
+                         Padding="15,0"
+                         BorderBrush="#CBD5E1"
+                         BorderThickness="1"
+                         Background="#F8FAFC"
                          Text="{Binding Pergunta, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <Button Grid.Column="1" Margin="15,0,0,0" Height="50" FontSize="16" FontWeight="Bold" Content="Pesquisar"
-                        Command="{Binding PesquisarCommand}" Background="#2563EB" Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                <!-- BOTÃO -->
+                <Button Grid.Column="1"
+                        Margin="15,0,0,0"
+                        Height="50"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Content="Pesquisar"
+                        Command="{Binding PesquisarCommand}"
+                        Background="#2563EB"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"/>
+
             </Grid>
         </Border>
 
-        <Border Grid.Row="2" Margin="20,0,20,20" Padding="20" Background="White" CornerRadius="20" BorderBrush="#E2E8F0" BorderThickness="1">
+        <!-- RESPOSTA -->
+        <Border Grid.Row="2"
+                Margin="20,0,20,20"
+                Padding="20"
+                Background="White"
+                CornerRadius="20"
+                BorderBrush="#E2E8F0"
+                BorderThickness="1">
+
             <StackPanel>
-                <TextBlock Text="Resposta da Pesquisa" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-                <TextBlock Text="{Binding Resposta}" FontSize="16" TextWrapping="Wrap" Foreground="#334155"/>
+
+                <TextBlock Text="Resposta da Pesquisa"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+
+                <TextBlock Text="{Binding Resposta}"
+                           FontSize="16"
+                           TextWrapping="Wrap"
+                           Foreground="#334155"/>
+
             </StackPanel>
         </Border>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,20,20">
+        <!-- BOTÕES -->
+        <StackPanel Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="20,0,20,20">
 
+            <!-- LISTAR -->
             <Button Content="Listar Tudo"
                     Width="150"
                     Height="42"
-                    Margin="0,0,15,0" 
+                    Margin="0,0,15,0"
                     FontWeight="Bold"
-                    Background="#475569" 
+                    Background= "Green"
                     Foreground="White"
                     BorderThickness="0"
                     Cursor="Hand"
                     Command="{Binding ListarTudoCommand}"/>
 
+            <!-- PDF -->
             <Button Content="Gerar PDF"
                     Width="150"
                     Height="42"
@@ -79,21 +144,29 @@
                     BorderThickness="0"
                     Cursor="Hand"
                     Command="{Binding GerarPdfCommand}"/>
+
         </StackPanel>
 
-        <Border Grid.Row="4" Background="White" CornerRadius="20" Padding="15" BorderBrush="#E2E8F0" BorderThickness="1" Margin="20,0,20,20">
-            <DataGrid ItemsSource="{Binding Resultados}" AutoGenerateColumns="False" HeadersVisibility="Column"
-                      CanUserAddRows="False" IsReadOnly="True" BorderThickness="0" GridLinesVisibility="Horizontal" RowHeight="40" FontSize="14">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Alimento" Binding="{Binding Nome}" Width="*"/>
-                    <DataGridTextColumn Header="Calorias" Binding="{Binding Calorias}" Width="120"/>
-                    <DataGridTextColumn Header="Proteína" Binding="{Binding Proteina}" Width="120"/>
-                    <DataGridTextColumn Header="Açúcar" Binding="{Binding Acucar}" Width="120"/>
-                    <DataGridTextColumn Header="Carboidratos" Binding="{Binding Carboidratos}" Width="140"/>
-                    <DataGridTextColumn Header="Gordura" Binding="{Binding GorduraTotal}" Width="120"/>
-                    <DataGridTextColumn Header="Fibras" Binding="{Binding Fibras}" Width="120"/>
-                </DataGrid.Columns>
-            </DataGrid>
+        <!-- GRID -->
+        <Border Grid.Row="4"
+                Background="White"
+                CornerRadius="20"
+                Padding="15"
+                BorderBrush="#E2E8F0"
+                BorderThickness="1"
+                Margin="20,0,20,20">
+
+            <DataGrid ItemsSource="{Binding Resultados}"
+                      AutoGenerateColumns="True"
+                      HeadersVisibility="Column"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      BorderThickness="0"
+                      GridLinesVisibility="Horizontal"
+                      RowHeight="40"
+                      FontSize="14"/>
+
         </Border>
+
     </Grid>
 </Window>
