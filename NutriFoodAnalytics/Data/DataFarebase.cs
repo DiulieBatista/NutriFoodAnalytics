@@ -1,17 +1,16 @@
-﻿using Firebase.Database;
+﻿using System;
+using System.IO;
 using FirebaseAdmin;
+using Firebase.Database;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Firestore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 
-namespace NutriFoodAnalytics.Data
+namespace NutriFoodWPF.Data
 {
-    public static class DataFirebase
+    public class DatabaseFirestore
     {
-        private const string FirebaseUrl = "https://nutrifoodanalytics-default-rtdb.firebaseio.com/";
+        // ATUALIZADO: Sua nova URL do projeto limpo
+        private const string FirebaseUrl = "https://nutrifoodanalytics-5f6a2-default-rtdb.firebaseio.com/";
 
         // Instância única do cliente (padrão Singleton)
         private static FirebaseClient? _client;
@@ -24,22 +23,22 @@ namespace NutriFoodAnalytics.Data
         {
             if (_client == null)
             {
-                // Inicializa a autenticação com o arquivo de chave de serviço
+                // Inicializa a autenticação com o arquivo de chave de serviço do novo projeto
                 if (FirebaseApp.DefaultInstance == null)
                 {
                     FirebaseApp.Create(new AppOptions
                     {
-                        // Lê o arquivo serviceAccountKey.json que fica na raiz do projeto
-                        Credential = GoogleCredential.FromFile("nutrifoodwpf-firebase-admin.json")
+                      
+                        Credential = GoogleCredential.FromFile("firebase-credentials.json")
                     });
                 }
 
-                // Cria o cliente apontando para a URL do banco
+                // Cria o cliente apontando para a nova URL do banco
                 _client = new FirebaseClient(FirebaseUrl, new FirebaseOptions
                 {
                     AuthTokenAsyncFactory = async () =>
                     {
-                        // Gera um token de autenticação usando o Admin 
+                        // Gera um token de autenticação seguro usando o Admin SDK
                         string token = await FirebaseAuth.DefaultInstance
                             .CreateCustomTokenAsync("nutrifoodapp");
                         return token;
